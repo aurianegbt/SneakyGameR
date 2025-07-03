@@ -98,7 +98,7 @@ print.sheet <- function(sheet){
 
   part2 <- sheet[!(sheet$Nom %in% as.character(1:6)),]
   part2[is.na(part2)] <- "-"
-  part2 <- rbind(part2,rep(" ",3))
+  part2 <- rbind(part2,rep(" ",ncol(part2)))
   part2 <- rbind(part2,c(Nom="Total",colSums(sheet[,-1,drop=FALSE],na.rm = TRUE)+ifelse(as.numeric(part1[7,-1])>=63,35,0)))
 
   blank = data.frame(Nom=rep(" ",9))
@@ -153,12 +153,14 @@ tour_yams <- function(sheet,joueur) {
 help <- function(){
   cat("Informations :\n")
   cat("\t- Pour saisir les joeurs veuillez espacer leur nom d'une virgule ;\n")
-  cat("\t- Pour saisir les dès à conserver, veuillez indiquer leur rang séparés de virgule;\n")
+  cat("\t- Pour saisir les dés à conserver, veuillez indiquer leur rang séparés de virgule;\n")
+  cat("\t- Pour conserver tous les dés, 'all' peut être saisi;\n")
+  cat("\t- Pour relancer tous les dés, '0' peut être saisi;")
   cat("\t- La feuille des scores sera réimprimée au début de chaque tour;\n")
   cat("\t- Le nom de la case saisie doit correspondre à celle de la feuille de score;\n")
-  cat("\t- Pour quitter à tout moment, saisir Q;\n")
-  cat("\t- Pour ravoir la feuille de score à tout moment, saisir S;\n")
-  cat("\t- Pour ravoir ces règles, saisir ?.\n")
+  cat("\t- Pour quitter à tout moment, saisir 'Q';\n")
+  cat("\t- Pour ravoir la feuille de score à tout moment, saisir 'S';\n")
+  cat("\t- Pour ravoir ces règles, saisir '?'.\n")
 }
 
 test.help <- function(sheet,reponse){
