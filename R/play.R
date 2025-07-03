@@ -1,10 +1,12 @@
 #' Play Yams !
 #'
-#' @returns launch a game of Yams.
+#' @returns launch a game of Yams and return the sheets of score.
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' play()
+#' }
 play <- function(){
   cat("--------- Début de la partie ---------\n")
   help()
@@ -46,4 +48,9 @@ play <- function(){
       cat("--------------------------------------\n")
     }
   }
+  if(length(joueurs)>1){
+    cat(toupper(names(which.max(colSums(sheet[,-1]))))," WON !!!\n")
+  }
+
+  return(invisible(sheet))
 }

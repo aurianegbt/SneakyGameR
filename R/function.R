@@ -58,19 +58,19 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
     }
     if(reponse %in% as.character(1:6)){
       score <- sum(des==as.numeric(reponse))*as.numeric(reponse)
-    }else if(reponse=="Brelan"){
+    }else if(tolower(reponse)=="brelan"){
       score <- ifelse(is.brelan(des),sum(des),0)
-    }else if(reponse=="Carré"){
+    }else if(tolower(reponse)=="barré"){
       score <- ifelse(is.carre(des),sum(des),0)
-    }else if(reponse=="Full"){
+    }else if(tolower(reponse)=="full"){
       score <- ifelse(is.full(des),25,0)
-    }else if(reponse=="Small"){
+    }else if(tolower(reponse)=="small"){
       score <- ifelse(is.small(des),30,0)
-    }else if(reponse=="Large"){
+    }else if(tolower(reponse)=="large"){
       score <- ifelse(is.large(des),40,0)
-    }else if(reponse=="Chance"){
+    }else if(tolower(reponse)=="chance"){
       score <- sum(des)
-    }else if(reponse=="Yams"){
+    }else if(tolower(reponse)=="yams"){
       score <- ifelse(is.yams(des),50,0)
     }
     if(score==0){
@@ -93,13 +93,15 @@ print.sheet <- function(sheet){
   part1 <- sheet[sheet$Nom %in% as.character(1:6),]
   part1[is.na(part1)] <- "-"
   part1 <- rbind(part1,c(Nom="Sous-Total",colSums(sheet[sheet$Nom %in% as.character(1:6),-1,drop=FALSE],na.rm = TRUE)))
+  part1 <- rbind(part1,c(Nom="Ecart",colSums(sheet[sheet$Nom %in% as.character(1:6),-1,drop=FALSE],na.rm = TRUE)-63))
   part1 <- rbind(part1, c(Nom="Bonus",ifelse(as.numeric(part1[7,-1])>=63,35,0)))
 
   part2 <- sheet[!(sheet$Nom %in% as.character(1:6)),]
   part2[is.na(part2)] <- "-"
+  part2 <- rbind(part2,rep(" ",3))
   part2 <- rbind(part2,c(Nom="Total",colSums(sheet[,-1,drop=FALSE],na.rm = TRUE)+ifelse(as.numeric(part1[7,-1])>=63,35,0)))
 
-  blank = data.frame(Nom=rep(" ",8))
+  blank = data.frame(Nom=rep(" ",9))
 
   to.print <- as.data.frame(cbind(part1,cbind(blank,part2)))
   colnames(to.print)[which(colnames(to.print)=="Nom")] <- "  "
@@ -123,6 +125,9 @@ tour_yams <- function(sheet,joueur) {
       test.help(sheet,reponse)
       reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
     }
+    if(identical(reponse,"all")){
+      reponse <- 1:5
+    }
     if (identical(reponse,0)) {
       des <- lancer_des()
     } else {
@@ -145,7 +150,7 @@ help <- function(){
   cat("Informations :\n")
   cat("\t- Pour saisir les joeurs veuillez espacer leur nom d'une virgule ;\n")
   cat("\t- Pour saisir les dès à conserver, veuillez indiquer leur rang séparés de virgule;\n")
-  cat("\t- La feuille des scores sera réimprimé au début de chaque tour;\n")
+  cat("\t- La feuille des scores sera réimprimée au début de chaque tour;\n")
   cat("\t- Le nom de la case saisie doit correspondre à celle de la feuille de score;\n")
   cat("\t- Pour quitter à tout moment, saisir Q;\n")
   cat("\t- Pour ravoir la feuille de score à tout moment, saisir S;\n")
