@@ -60,7 +60,7 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
       score <- sum(des==as.numeric(reponse))*as.numeric(reponse)
     }else if(tolower(reponse)=="brelan"){
       score <- ifelse(is.brelan(des),sum(des),0)
-    }else if(tolower(reponse)=="carré"){
+    }else if(tolower(reponse)=="carré" | tolower(reponse)=="carre"){
       score <- ifelse(is.carre(des),sum(des),0)
     }else if(tolower(reponse)=="full"){
       score <- ifelse(is.full(des),25,0)
