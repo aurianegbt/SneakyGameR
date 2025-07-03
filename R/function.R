@@ -155,7 +155,7 @@ help <- function(){
   cat("\t- Pour saisir les joeurs veuillez espacer leur nom d'une virgule ;\n")
   cat("\t- Pour saisir les dés à conserver, veuillez indiquer leur rang séparés de virgule;\n")
   cat("\t- Pour conserver tous les dés, 'all' peut être saisi;\n")
-  cat("\t- Pour relancer tous les dés, '0' peut être saisi;")
+  cat("\t- Pour relancer tous les dés, '0' peut être saisi;\n")
   cat("\t- La feuille des scores sera réimprimée au début de chaque tour;\n")
   cat("\t- Le nom de la case saisie doit correspondre à celle de la feuille de score;\n")
   cat("\t- Pour quitter à tout moment, saisir 'Q';\n")
