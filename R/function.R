@@ -119,11 +119,15 @@ tour_yams <- function(sheet,joueur) {
   for (i in 2:3) {
     reponse <- readline(prompt = "\tQuels dés veux-tu garder ? ")
     test.help(sheet,reponse)
-    reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
-    while(!identical(reponse,0) & any(!(reponse %in% 1:length(des)))){
+    if(!identical(reponse,"all")){
+      reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
+    }
+    while(!identical(reponse,0) & !identical(reponse,"all") & any(!(reponse %in% 1:length(des)))){
       reponse <- readline(prompt = "\t[Dés invalides] Quels dés veux-tu garder ? ")
       test.help(sheet,reponse)
-      reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
+      if(!identical(reponse,"all")){
+        reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
+      }
     }
     if(identical(reponse,"all")){
       reponse <- 1:5
