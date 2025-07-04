@@ -1,6 +1,6 @@
 Package: SneakyGameR
 Type: Package
-Title: Smeaky Games in R
+Title: Sneaky Games in R
 Version: 0.1.0
 Authors@R: c(
     person(
