@@ -50,10 +50,10 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
 
   warning <- TRUE
   while(warning){
-    reponse <- readline(prompt = "\tQuelle case souhaites-tu remplir ?")
+    reponse <- readline(prompt = "\tQuelle case souhaites-tu remplir ? ")
     test.help(sheet,reponse)
     while(!(tolower(reponse) %in% c(tolower(sheet$Nom),"carre")) || !is.na(sheet[tolower(sheet$Nom)==tolower(reponse),joueur])){
-      reponse <- readline(prompt = "\t[Saisie invalide] Quelle case souhaites-tu remplir ?")
+      reponse <- readline(prompt = "\t[Saisie invalide] Quelle case souhaites-tu remplir ? ")
       test.help(sheet,reponse)
     }
     if(reponse %in% as.character(1:6)){
@@ -74,11 +74,11 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
       score <- ifelse(is.yams(des),50,0)
     }
     if(score==0){
-      write <- readline(paste0("/!\ Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N]"))
+      write <- readline(paste0("Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N] "))
       test.help(sheet,write)
       while(!identical(tolower(write),"y") & !identical(tolower(write),"n")){
 
-        write <- readline(paste0("[Saisie invalide] Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N]"))
+        write <- readline(paste0("[Saisie invalide] Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N] "))
         test.help(sheet,write)
       }
       if(identical(tolower(write),"y")){
