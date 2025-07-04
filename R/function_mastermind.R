@@ -51,18 +51,15 @@ help_mind <- function(){
   cat("\t- \u25EF indique un chiffre inclu dans le code mais mal placé;\n")
   cat("\t- \u26AA  indique un chiffre inclu dans le code et bien placé;\n")
   cat("\t- Pour quitter à tout moment, saisir 'Q';\n")
-  cat("\t- Pour abandonner à tout moment, saisir 'stop';\n")
   cat("\t- Pour ravoir ces règles, saisir '?'.\n")
 }
 
 test.help_mind <- function(reponse,code){
   if(identical(tolower(reponse),"q")){
+    cat("Le code était :",code,"\n")
     stop()
   }else if(identical(reponse,"?")){
     help_mind()
-  }else if(identical(tolower(reponse),"stop")){
-    cat("Le code était :",code,"\n")
-    stop()
   }
 }
 
