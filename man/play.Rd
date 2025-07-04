@@ -2,16 +2,18 @@
 % Please edit documentation in R/play.R
 \name{play}
 \alias{play}
-\title{Play Yams !}
+\title{Play games !}
 \usage{
-play()
+play(game = "Yams")
 }
 \value{
-launch a game of Yams.
+launch a game of Yams or mind and return the sheets of score.
 }
 \description{
-Play Yams !
+Play games !
 }
 \examples{
-play()
+\dontrun{
+play("Yams")
+}
 }

@@ -1,21 +1,73 @@
-#' Play Yams !
+#' Play games !
 #'
-#' @returns launch a game of Yams and return the sheets of score.
+#' @returns launch a game of Yams or mind and return the sheets of score.
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' play()
+#' play("Yams")
 #' }
-play <- function(){
+play <- function(game="Yams"){
+  if(tolower(game)=="yams"){
+    sheet <- play.yams()
+    return(invisible(sheet))
+  }else if(tolower(game)=="mind"){
+    play.mind()
+  }else{
+    stop("Jeu inconnue, jeux disponibles : Yams, Mind")
+  }
+}
+
+
+# Mastermind --------------------------------------------------------------
+
+play.mind <- function(){
   cat("--------- Début de la partie ---------\n")
-  help()
+  help_mind()
+  code <- code_selection()
+  level <- readline(prompt = "Veuillez saisir la difficulté [D/M/F] :")
+  test.help_mind(level,code)
+  while(!(tolower(level) %in% c("d","m","f"))){
+    level <- readline(prompt = "Saisie invalide, veuillez saisir la difficulté [D/M/F] :")
+    test.help_mind(level,code)
+  }
+  nb_tour <- ifelse(tolower(level)=="d",8,ifelse(tolower(level)=="m",10,12))
+
+  win <- FALSE
+  cat("--------------------------------------\n")
+
+  for(i in 1:nb_tour){
+    cat("Tour n°",i,"/",nb_tour,":\n")
+    reponse <- tour_mastermind(code)
+    if(all(reponse==code)){
+      win <- TRUE
+      break
+    }
+    cat("\n----------------\n")
+  }
+  cat("Le code était :",code,"\n")
+  if(win){
+    cat("YOU HAVE WON !!")
+  }else{
+    cat("LOOSER...")
+  }
+  return(invisible(code))
+}
+
+
+
+
+
+# Yams --------------------------------------------------------------------
+play.yams <- function(){
+  cat("--------- Début de la partie ---------\n")
+  help_yams()
   joueurs <- readline(prompt = "Veuillez saisir le noms des joeurs :")
   test.help(sheet,joueurs)
   joueurs <- stringr::str_split(joueurs,",")[[1]]
   while(length(joueurs)==0){
     joueurs <- readline(prompt = "Saisie invalide, veuillez saisir le noms des joeurs :")
-    test.help(sheet,joueurs)
+    test.help_yams(sheet,joueurs)
     joueurs <- stringr::str_split(joueurs,",")[[1]]
   }
 

@@ -40,6 +40,7 @@ init_sheet <- function(joueurs){
     sheet <- cbind(sheet,rep(NA,13))
   }
   colnames(sheet)[-1] <- joueurs
+  class(sheet) <- c("sheetYams","data.frame")
   return(sheet)
 }
 
@@ -51,10 +52,10 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
   warning <- TRUE
   while(warning){
     reponse <- readline(prompt = "\tQuelle case souhaites-tu remplir ? ")
-    test.help(sheet,reponse)
+    test.help_yams(sheet,reponse)
     while(!(tolower(reponse) %in% c(tolower(sheet$Nom),"carre")) || !is.na(sheet[tolower(sheet$Nom)==tolower(reponse),joueur])){
       reponse <- readline(prompt = "\t[Saisie invalide] Quelle case souhaites-tu remplir ? ")
-      test.help(sheet,reponse)
+      test.help_yams(sheet,reponse)
     }
     if(reponse %in% as.character(1:6)){
       score <- sum(des==as.numeric(reponse))*as.numeric(reponse)
@@ -75,11 +76,11 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
     }
     if(score==0){
       write <- readline(paste0("Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N] "))
-      test.help(sheet,write)
+      test.help_yams(sheet,write)
       while(!identical(tolower(write),"y") & !identical(tolower(write),"n")){
 
         write <- readline(paste0("[Saisie invalide] Tu t'apprêtes à inscrire un 0 dans la case",reponse,", souhaites-tu confirmer ? [Y/N] "))
-        test.help(sheet,write)
+        test.help_yams(sheet,write)
       }
       if(identical(tolower(write),"y")){
         warning <- FALSE
@@ -89,12 +90,12 @@ update_sheet <- function(des,sheet,joueur,yams=FALSE){
     }
   }
   sheet[tolower(sheet$Nom)==tolower(reponse),joueur] <- score
-
+  class(sheet) <- c("sheetYams","data.frame")
   return(sheet)
 }
 
 #' @export
-print.sheet <- function(sheet){
+print.sheetYams <- function(sheet){
   part1 <- sheet[sheet$Nom %in% as.character(1:6),]
   part1[is.na(part1)] <- "-"
   part1 <- rbind(part1,c(Nom="Sous-Total",colSums(sheet[sheet$Nom %in% as.character(1:6),-1,drop=FALSE],na.rm = TRUE)))
@@ -123,13 +124,13 @@ tour_yams <- function(sheet,joueur) {
 
   for (i in 2:3) {
     reponse <- readline(prompt = "\tQuels dés veux-tu garder ? ")
-    test.help(sheet,reponse)
+    test.help_yams(sheet,reponse)
     if(!identical(reponse,"all")){
       reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
     }
     while(!identical(reponse,0) & !identical(reponse,"all") & any(!(reponse %in% 1:length(des)))){
       reponse <- readline(prompt = "\t[Dés invalides] Quels dés veux-tu garder ? ")
-      test.help(sheet,reponse)
+      test.help_yams(sheet,reponse)
       if(!identical(reponse,"all")){
         reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
       }
@@ -155,7 +156,7 @@ tour_yams <- function(sheet,joueur) {
 
 # Play --------------------------------------------------------------------
 
-help <- function(){
+help_yams <- function(){
   cat("Informations :\n")
   cat("\t- Pour saisir les joeurs veuillez espacer leur nom d'une virgule ;\n")
   cat("\t- Pour saisir les dés à conserver, veuillez indiquer leur rang séparés de virgule;\n")
@@ -168,12 +169,12 @@ help <- function(){
   cat("\t- Pour ravoir ces règles, saisir '?'.\n")
 }
 
-test.help <- function(sheet,reponse){
+test.help_yams <- function(sheet,reponse){
   if(identical(reponse,"Q")){
     stop()
   }else if(identical(reponse,"S")){
     print.sheet(sheet)
   }else if(identical(reponse,"?")){
-    help()
+    help_yams()
   }
 }
