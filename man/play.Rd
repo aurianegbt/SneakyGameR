@@ -7,7 +7,7 @@
 play(game = "Yams")
 }
 \value{
-launch a game of Yams or mind and return the sheets of score.
+launch a game of Yams, Pendu, 421 or mind and return the sheets of score.
 }
 \description{
 Play games !

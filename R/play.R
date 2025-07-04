@@ -1,6 +1,6 @@
 #' Play games !
 #'
-#' @returns launch a game of Yams, Pendu or mind and return the sheets of score.
+#' @returns launch a game of Yams, Pendu, 421 or mind and return the sheets of score.
 #' @export
 #'
 #' @examples
@@ -17,6 +17,57 @@ play <- function(game="Yams"){
     play.pendu()
   }else{
     stop("Jeu inconnue, jeux disponibles : Yams, Mind")
+  }
+}
+
+
+# 421 ---------------------------------------------------------------------
+
+play.421 <- function(){
+  cat("--------- Début de la partie ---------\n")
+  help_421()
+  joueurs <- readline(prompt = "Veuillez saisir le noms des joeurs :")
+  test.help_421(joueurs)
+  joueurs <- stringr::str_split(joueurs,",")[[1]]
+  while(length(joueurs)==0){
+    joueurs <- readline(prompt = "Saisie invalide, veuillez saisir le noms des joeurs :")
+    test.help_421(joueurs)
+    joueurs <- stringr::str_split(joueurs,",")[[1]]
+  }
+
+  score <- setNames(rep(NA,length(joueurs)),joueurs)
+
+  for(joueur in joueurs){
+    cat("--------------------------------------\n")
+    if(length(joueurs)!=1){
+      cat("C'est au tour de",joueur," !\n")
+    }
+    des <- lancer_des(n=3)
+    score[joueur] <- 1
+
+    while(!setequal(c(4,2,1),as.numeric(des))){
+      cat("Dés :", des, "\n")
+      reponse <- readline(prompt = "\tQuels dés veux-tu garder ? ")
+      test.help_421(reponse)
+      reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
+      while(!identical(reponse,0)  & any(!(reponse %in% 1:length(des))) & setequal(c(1,2,3),reponse)){
+        reponse <- readline(prompt = "\t[Dés invalides] Quels dés veux-tu garder ? ")
+        test.help_421(reponse)
+        reponse <- as.numeric(stringr::str_split(reponse,",")[[1]])
+      }
+      if(identical(reponse,0)) {
+        des <- lancer_des(n=3)
+      } else {
+        des[setdiff(1:3,reponse)] <- lancer_des(3 - length(reponse))
+        score[joueur] <- score[joueur] + 1
+      }
+    }
+    cat("Dés :", des, "\n")
+  }
+  cat("Score Finaux :")
+  print(score)
+  if(length(joueurs)>1){
+    cat(toupper(names(which.min(score))),"WON !!!\n")
   }
 }
 
@@ -136,7 +187,7 @@ play.yams <- function(){
   cat("--------- Début de la partie ---------\n")
   help_yams()
   joueurs <- readline(prompt = "Veuillez saisir le noms des joeurs :")
-  test.help(sheet,joueurs)
+  test.help_yams(sheet,joueurs)
   joueurs <- stringr::str_split(joueurs,",")[[1]]
   while(length(joueurs)==0){
     joueurs <- readline(prompt = "Saisie invalide, veuillez saisir le noms des joeurs :")

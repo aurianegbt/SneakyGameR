@@ -120,7 +120,7 @@ print.sheetYams <- function(sheet){
 
 tour_yams <- function(sheet,joueur) {
   des <- lancer_des()
-  cat("Premier lancer :", des, "\n")
+  cat("1er lancer :", des, "\n")
 
   for (i in 2:3) {
     reponse <- readline(prompt = "\tQuels dés veux-tu garder ? ")
