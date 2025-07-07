@@ -1,6 +1,6 @@
 #' Play games !
 #'
-#' @returns launch a game of Yams, Pendu, 421 or mind and return the sheets of score.
+#' @returns launch a game of Yams, Pendu, 421, farkle or mastermind and return the sheets of score.
 #' @export
 #'
 #' @examples
@@ -11,13 +11,96 @@ play <- function(game="Yams"){
   if(tolower(game)=="yams"){
     sheet <- play.yams()
     return(invisible(sheet))
-  }else if(tolower(game)=="mind"){
+  }else if(tolower(game)=="mastermind"){
     play.mind()
   }else if(tolower(game)=="pendu"){
     play.pendu()
+  }else if(tolower(game)=="421"){
+    play.421()
+  }else if(tolower(game)=="farkle"){
+    play.farkle()
   }else{
     stop("Jeu inconnue, jeux disponibles : Yams, Mind")
   }
+}
+
+
+# farkle ------------------------------------------------------------------
+
+play.farkle <- function(){
+  cat("--------- Début de la partie ---------\n")
+  help_farkle()
+  joueurs <- readline(prompt = "Veuillez saisir le noms des joeurs :")
+  test.help_farkle(joueurs)
+  joueurs <- stringr::str_split(joueurs,",")[[1]]
+  while(length(joueurs)==0){
+    joueurs <- readline(prompt = "Saisie invalide, veuillez saisir le noms des joeurs :")
+    test.help_farkle(joueurs)
+    joueurs <- stringr::str_split(joueurs,",")[[1]]
+  }
+
+  scoreTOT <- setNames(rep(0,length(joueurs)),joueurs)
+  stop <- FALSE
+  tour = 1
+
+  while(!stop && (length(joueurs)!=1 || tour <=10)){
+    for(joueur in joueurs){
+      if(length(joueurs)==1){
+        cat("Score actuel :",unname(scoreTOT),"\n")
+      }else{
+        cat("Scores actuels :\n")
+        print(scoreTOT)
+      }
+      if(length(joueurs)!=1){
+        cat("\nC'est au tour de",joueur," !\n")
+      }else{
+        if(tour==10){
+          cat("Dernier tour ! ")
+        }
+        cat("\nTour n°",tour,"/10:\n")
+      }
+      tour = tour +1
+      scoreTOT[joueur] <- scoreTOT[joueur] + tour_farkle(joueur)
+
+      if(scoreTOT[joueur]>5000){
+        stop <- TRUE
+        if(length(joueurs)!=1){
+          cat("Dernier tour de jeu !")
+          cat("--------------------------------------\n")
+          if(length(joueurs)==1){
+            cat("Score actuel :",unname(scoreTOT),"\n")
+          }else{
+            cat("Scores actuels :\n")
+            print(scoreTOT)
+          }
+          break
+        }
+      }
+      cat("--------------------------------------\n")
+    }
+  }
+  if(length(joueurs)>1){
+    last <- which.max(scoreTOT)
+    for(j in 1:(length(joueurs)-1)){
+      joueur <- rep(joueurs,2)[last+j]
+      if(length(joueurs)!=1){
+        cat("C'est au tour de",joueur," pour son dernier tour !\n")
+      }
+      scoreTOT[joueur] <- scoreTOT[joueur] + tour_farkle(joueur)
+      cat("--------------------------------------\n")
+    }
+    cat("\n Score finaux:\n")
+    print(scoreTOT)
+    cat("\n")
+    cat(toupper(names(which.max(scoreTOT))),"WON !!!\n")
+  }else{
+    if(scoreTOT<5000){
+      cat("LOOSER...\n")
+    }else{
+      cat("YOU WON !\n")
+    }
+  }
+  return(invisible(scoreTOT))
 }
 
 
