@@ -1,6 +1,6 @@
 #' Play games !
 #'
-#' @returns launch a game of Yams, Pendu, 421, farkle or mastermind and return the sheets of score.
+#' @returns Lance une partie d'un jeu ! Jeux disponibles : Yams, mastermind, pendu, 421, farkle.
 #' @export
 #'
 #' @examples
@@ -20,7 +20,7 @@ play <- function(game="Yams"){
   }else if(tolower(game)=="farkle"){
     play.farkle()
   }else{
-    stop("Jeu inconnue, jeux disponibles : Yams, Mind")
+    stop("Jeu inconnu, jeux disponibles : Yams, mastermind, pendu, 421, farkle.")
   }
 }
 
@@ -280,7 +280,7 @@ play.yams <- function(){
 
   sheet <- init_sheet(joueurs)
   cat("Feuille des scores :\n")
-  print.sheet(sheet)
+  print.sheetYams(sheet)
 
   yams_save <- setNames(rep(FALSE,length(joueurs)),joueurs)
 
@@ -303,7 +303,7 @@ play.yams <- function(){
         yams_save[joueur] <- TRUE
       }
       cat("Feuille des scores :\n")
-      print.sheet(sheet)
+      print.sheetYams(sheet)
       cat("--------------------------------------\n")
     }
   }
