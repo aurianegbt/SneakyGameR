@@ -9,7 +9,7 @@ Authors@R: c(
       role = c("aut", "cre")
     )
   )
-Description: Allows to play Yams, mastermind in R.
+Description: Allows to play Yams, mastermind, pendu, 421, farkle in R.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
