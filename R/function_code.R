@@ -24,7 +24,7 @@ almost <- function(reponse,code){
   return(res)
 }
 
-tour_mastermind <- function(code){
+tour_codemind <- function(code){
   reponse <- readline(prompt = "Saisir un code : \n")
   test.help_mind(reponse,code)
   reponse <- as.numeric(stringr::str_split(reponse,"-")[[1]])

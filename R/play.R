@@ -1,17 +1,18 @@
-#' Play games !
+#' Play games ! # can't stop
 #'
-#' @returns Lance une partie d'un jeu ! Jeux disponibles : Yams, mastermind, pendu, 421, farkle.
+#' @returns Lance une partie d'un jeu ! Jeux disponibles : Yams, code, pendu, 421, farkle.
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#' rules("Yams")
 #' play("Yams")
 #' }
 play <- function(game="Yams"){
   if(tolower(game)=="yams"){
     sheet <- play.yams()
     return(invisible(sheet))
-  }else if(tolower(game)=="mastermind"){
+  }else if(tolower(game)=="code"){
     play.mind()
   }else if(tolower(game)=="pendu"){
     play.pendu()
@@ -20,7 +21,7 @@ play <- function(game="Yams"){
   }else if(tolower(game)=="farkle"){
     play.farkle()
   }else{
-    stop("Jeu inconnu, jeux disponibles : Yams, mastermind, pendu, 421, farkle.")
+    stop("Jeu inconnu, jeux disponibles : Yams, code, pendu, 421, farkle.")
   }
 }
 
@@ -226,7 +227,7 @@ play.pendu <- function(){
 }
 
 
-# Mastermind --------------------------------------------------------------
+# codemind --------------------------------------------------------------
 
 play.mind <- function(){
   cat("--------- Début de la partie ---------\n")
@@ -245,7 +246,7 @@ play.mind <- function(){
 
   for(i in 1:nb_tour){
     cat("Tour n°",i,"/",nb_tour,":\n")
-    reponse <- tour_mastermind(code)
+    reponse <- tour_codemind(code)
     if(all(reponse==code)){
       win <- TRUE
       break
